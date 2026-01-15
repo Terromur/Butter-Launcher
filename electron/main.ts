@@ -12,6 +12,10 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 process.env.APP_ROOT = path.join(__dirname, "..");
 
+app.on("ready", () => {
+  app.setAppUserModelId("Butter Launcher");
+});
+
 export const VITE_DEV_SERVER_URL = process.env["VITE_DEV_SERVER_URL"];
 export const MAIN_DIST = path.join(process.env.APP_ROOT, "dist-electron");
 export const RENDERER_DIST = path.join(process.env.APP_ROOT, "dist");
@@ -40,7 +44,7 @@ function createWindow() {
     titleBarStyle: "hidden",
     resizable: false,
     backgroundColor: "#00000000",
-    icon: path.join(process.env.VITE_PUBLIC!, "electron-vite.svg"),
+    icon: `../src/assets/icon.ico`,
     webPreferences: {
       preload: path.join(__dirname, "preload.mjs"),
     },

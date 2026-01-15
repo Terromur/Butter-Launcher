@@ -4,7 +4,7 @@
   "appId": "com.butter.launcher",
   "asar": true,
   "productName": "Butter Launcher",
-  "copyright": "Copyright © 2025 Butter",
+  "copyright": "Copyright © 2026 Butter",
   "directories": {
     "output": "release/${version}"
   },
