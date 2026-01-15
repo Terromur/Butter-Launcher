@@ -20,6 +20,7 @@ const Launcher: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => {
   } = useGameContext();
   const { username } = useUserContext();
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [isLaunching, setIsLaunching] = useState(false);
 
   return (
     <div
@@ -99,24 +100,28 @@ const Launcher: React.FC<{ onLogout?: () => void }> = ({ onLogout }) => {
               </div>
             </div>
           ) : (
-            <button
-              className="min-w-52 bg-linear-to-r from-[#3b82f6] to-[#60a5fa] text-white text-xl font-bold px-12 py-3 rounded-lg shadow-lg hover:scale-105 transition"
-              onClick={() => {
-                if (!isInstalled) return installGame();
-                if (!username) return;
-                launchGame(username);
-              }}
-            >
-              {isInstalled ? "Play" : "Install"}
-            </button>
+              <button
+                className="min-w-52 bg-linear-to-r from-[#3b82f6] to-[#60a5fa] text-white text-xl font-bold px-12 py-3 rounded-lg shadow-lg hover:scale-105 transition"
+                onClick={async () => {
+                  if (!isInstalled) return installGame();
+                  if (!username) return;
+                  setIsLaunching(true);
+                  try {
+                    await launchGame(username);
+                  } catch (e) {
+                  }
+                  setTimeout(() => setIsLaunching(false), 7000);
+                }}
+                disabled={isLaunching}
+              >
+                {isInstalled ? (isLaunching ? "Running Game" : "Play") : "Install"}
+              </button>
           )}
-          {isInstalled && (
-            <div className="text-xs text-gray-200 font-mono opacity-80">
-              Installed: {gameVersion}
-            </div>
-          )}
-          <div className="text-xs text-gray-200 font-mono opacity-80">
-            Latest Version: {latestVersion}
+          <div className="text-xs text-gray-200 font-mono opacity-80 flex flex-row gap-4 items-center">
+            <span>Latest Version: {latestVersion}</span>
+            {isInstalled && (
+              <span>Installed: {gameVersion}</span>
+            )}
           </div>
         </div>
         <div className="flex flex-row gap-4">

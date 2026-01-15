@@ -1,20 +1,25 @@
 {
   "name": "butter-launcher",
-  "private": true,
-  "version": "0.0.0",
+  "private": false,
+  "version": "0.1.0",
   "type": "module",
+  "main": "dist-electron/main.js",
+
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && electron-builder",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
+
   "dependencies": {
     "adm-zip": "^0.5.16",
+    "electron-updater": "^6.7.3",
     "extract-zip": "^2.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
+
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.18",
     "@types/adm-zip": "^0.5.7",
@@ -35,5 +40,26 @@
     "vite-plugin-electron": "^0.28.6",
     "vite-plugin-electron-renderer": "^0.14.5"
   },
-  "main": "dist-electron/main.js"
+
+  "build": {
+    "appId": "com.butter.launcher",
+    "productName": "Butter Launcher",
+
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "vZylev",
+        "repo": "Butter-Launcher"
+      }
+    ],
+
+    "files": [
+      "dist/**",
+      "dist-electron/**"
+    ],
+
+    "win": {
+      "target": "nsis"
+    }
+  }
 }
